@@ -1,0 +1,22 @@
+# Executables
+*.exe
+
+# Object files
+*.obj
+
+# Debug symbols
+*.pdb
+
+# Linker files
+*.ilk
+
+# Build folders
+Debug/
+Release/
+build/
+
+# VS Code settings (optional)
+.vscode/
+
+# Logs
+*.log
