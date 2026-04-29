@@ -1,0 +1,10 @@
+player "Stephen Curry";
+team "GSW";
+fgm = 12;
+fga = 10;
+three_pm = 7;
+three_pa = 5;
+ftm = 4;
+fta = 2;
+reb = -3;
+plus_minus = -4;

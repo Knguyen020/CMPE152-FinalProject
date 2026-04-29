@@ -7,14 +7,13 @@
 
 class Lexer {
 private:
-    std::string source;   // entire input file as a string
+    std::string source;
     std::vector<Token> tokens;
 
-    int start = 0;        // start of current lexeme
-    int current = 0;      // current position in source
-    int line = 1;         // track line numbers
+    int start = 0;
+    int current = 0;
+    int line = 1;
 
-    // Core scanning helpers
     bool isAtEnd() const;
     char advance();
     char peek() const;
@@ -23,13 +22,12 @@ private:
     void addToken(TokenType type);
     void addToken(TokenType type, const std::string& lexeme);
 
-    // Token recognition functions
     void scanToken();
     void identifier();
-    void number();
+    void number();          // normal number like 30
+    void signedNumber();    // signed number like +4 or -4
     void string();
 
-    // Utility helpers
     bool isAlpha(char c) const;
     bool isDigit(char c) const;
     bool isAlphaNumeric(char c) const;

@@ -63,7 +63,6 @@ void Lexer::scanToken() {
         case ' ':
         case '\r':
         case '\t':
-            // Ignore whitespace
             break;
 
         case '\n':
@@ -80,6 +79,15 @@ void Lexer::scanToken() {
 
         case '"':
             string();
+            break;
+
+        case '+':
+        case '-':
+            if (isDigit(peek())) {
+                signedNumber();
+            } else {
+                addToken(TokenType::INVALID, std::string(1, c));
+            }
             break;
 
         default:
@@ -119,6 +127,15 @@ void Lexer::number() {
     addToken(TokenType::NUMBER, text);
 }
 
+void Lexer::signedNumber() {
+    while (isDigit(peek())) {
+        advance();
+    }
+
+    std::string text = source.substr(start, current - start);
+    addToken(TokenType::NUMBER, text);
+}
+
 void Lexer::string() {
     while (peek() != '"' && !isAtEnd()) {
         if (peek() == '\n') {
@@ -132,10 +149,8 @@ void Lexer::string() {
         return;
     }
 
-    // Consume closing quote
     advance();
 
-    // Extract contents without quotes
     std::string value = source.substr(start + 1, current - start - 2);
     addToken(TokenType::STRING, value);
 }

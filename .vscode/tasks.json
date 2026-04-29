@@ -10,7 +10,8 @@
                 "main.cpp",
                 "lexer.cpp",
                 "token.cpp",
-                "parser.cpp"
+                "parser.cpp",
+                "semantic.cpp"
             ],
             "options": {
                 "cwd": "${workspaceFolder}\\files"

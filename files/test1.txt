@@ -1,5 +1,0 @@
-player "Stephen Curry";
-team "GSW";
-pts = 30;
-reb = 5;
-ast = 6;

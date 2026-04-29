@@ -1,0 +1,17 @@
+player "Stephen Curry";
+team "GSW";
+min = 38;
+pts = 30;
+reb = 5;
+ast = 6;
+stl = 2;
+blk = 1;
+fgm = 11;
+fga = 20;
+three_pm = 6;
+three_pa = 14;
+ftm = 2;
+fta = 2;
+to = 4;
+pf = 3;
+plus_minus = -2;
