@@ -84,14 +84,14 @@ int main() {
     // Header row
     std::cout << std::left
         << std::setw(6) << "MIN"
-        << std::setw(6) << "PTS"
-        << std::setw(6) << "REB"
+        << std::setw(6) << "PTS"       
         << std::setw(6) << "FGM"
         << std::setw(6) << "FGA"
         << std::setw(6) << "3PM"
         << std::setw(6) << "3PA"
         << std::setw(6) << "FTM"
         << std::setw(6) << "FTA"
+        << std::setw(6) << "REB"
         << std::setw(6) << "AST"
         << std::setw(6) << "STL"
         << std::setw(6) << "BLK"
