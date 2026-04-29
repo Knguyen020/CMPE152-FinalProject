@@ -22,17 +22,20 @@ char Lexer::advance() {
 }
 
 char Lexer::peek() const {
-    if (isAtEnd()) {
-        return '\0';
-    }
+    if (isAtEnd()) return '\0';
     return source[current];
 }
 
 char Lexer::peekNext() const {
-    if (current + 1 >= static_cast<int>(source.length())) {
-        return '\0';
-    }
+    if (current + 1 >= static_cast<int>(source.length())) return '\0';
     return source[current + 1];
+}
+
+bool Lexer::match(char expected) {
+    if (isAtEnd()) return false;
+    if (source[current] != expected) return false;
+    current++;
+    return true;
 }
 
 void Lexer::addToken(TokenType type) {
@@ -69,10 +72,6 @@ void Lexer::scanToken() {
             line++;
             break;
 
-        case '=':
-            addToken(TokenType::ASSIGN);
-            break;
-
         case ';':
             addToken(TokenType::SEMICOLON);
             break;
@@ -81,12 +80,51 @@ void Lexer::scanToken() {
             string();
             break;
 
+        case '=':
+            if (match('=')) {
+                addToken(TokenType::EQUAL_EQUAL);
+            } else {
+                addToken(TokenType::ASSIGN);
+            }
+            break;
+
+        case '!':
+            if (match('=')) {
+                addToken(TokenType::BANG_EQUAL);
+            } else {
+                addToken(TokenType::INVALID, "!");
+            }
+            break;
+
+        case '>':
+            if (match('=')) {
+                addToken(TokenType::GREATER_EQUAL);
+            } else {
+                addToken(TokenType::GREATER);
+            }
+            break;
+
+        case '<':
+            if (match('=')) {
+                addToken(TokenType::LESS_EQUAL);
+            } else {
+                addToken(TokenType::LESS);
+            }
+            break;
+
         case '+':
+            if (isDigit(peek())) {
+                signedNumber();
+            } else {
+                addToken(TokenType::PLUS);
+            }
+            break;
+
         case '-':
             if (isDigit(peek())) {
                 signedNumber();
             } else {
-                addToken(TokenType::INVALID, std::string(1, c));
+                addToken(TokenType::MINUS);
             }
             break;
 
@@ -113,6 +151,8 @@ void Lexer::identifier() {
         addToken(TokenType::PLAYER, text);
     } else if (text == "team") {
         addToken(TokenType::TEAM, text);
+    } else if (text == "check") {
+        addToken(TokenType::CHECK, text);
     } else {
         addToken(TokenType::IDENTIFIER, text);
     }

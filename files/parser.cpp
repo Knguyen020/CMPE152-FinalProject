@@ -1,7 +1,8 @@
 #include "parser.h"
-#include <iostream>
+#include <string>
 
-Parser::Parser(const std::vector<Token>& tokenList) : tokens(tokenList) {}
+Parser::Parser(const std::vector<Token>& tokenList)
+    : tokens(tokenList), current(0) {}
 
 bool Parser::isAtEnd() const {
     return peek().type == TokenType::END_OF_FILE;
@@ -23,9 +24,7 @@ Token Parser::advance() {
 }
 
 bool Parser::check(TokenType type) const {
-    if (isAtEnd()) {
-        return false;
-    }
+    if (isAtEnd()) return false;
     return peek().type == type;
 }
 
@@ -44,8 +43,6 @@ Token Parser::consume(TokenType type, const std::string& errorMessage) {
 
     std::string error = "Line " + std::to_string(peek().line) + ": " + errorMessage;
     errors.push_back(error);
-
-    // Return an invalid placeholder token so parsing can continue
     return Token(TokenType::INVALID, "", peek().line);
 }
 
@@ -59,6 +56,7 @@ void Parser::synchronize() {
 
         if (peek().type == TokenType::PLAYER ||
             peek().type == TokenType::TEAM ||
+            peek().type == TokenType::CHECK ||
             peek().type == TokenType::IDENTIFIER) {
             return;
         }
@@ -83,12 +81,55 @@ void Parser::statAssignment() {
     consume(TokenType::SEMICOLON, "Expected ';' after stat assignment");
 }
 
+void Parser::term() {
+    if (match(TokenType::IDENTIFIER) || match(TokenType::NUMBER)) {
+        return;
+    }
+
+    std::string error = "Line " + std::to_string(peek().line) +
+                        ": Expected identifier or number in expression";
+    errors.push_back(error);
+}
+
+void Parser::expression() {
+    term();
+
+    while (match(TokenType::PLUS) || match(TokenType::MINUS)) {
+        term();
+    }
+}
+
+void Parser::relationalOperator() {
+    if (match(TokenType::GREATER) ||
+        match(TokenType::LESS) ||
+        match(TokenType::GREATER_EQUAL) ||
+        match(TokenType::LESS_EQUAL) ||
+        match(TokenType::EQUAL_EQUAL) ||
+        match(TokenType::BANG_EQUAL)) {
+        return;
+    }
+
+    std::string error = "Line " + std::to_string(peek().line) +
+                        ": Expected comparison operator";
+    errors.push_back(error);
+}
+
+void Parser::checkStatement() {
+    expression();
+    relationalOperator();
+    consume(TokenType::NUMBER, "Expected number after comparison operator");
+    consume(TokenType::SEMICOLON, "Expected ';' after check statement");
+}
+
 void Parser::statement() {
     if (match(TokenType::PLAYER)) {
         playerDeclaration();
     }
     else if (match(TokenType::TEAM)) {
         teamDeclaration();
+    }
+    else if (match(TokenType::CHECK)) {
+        checkStatement();
     }
     else if (match(TokenType::IDENTIFIER)) {
         statAssignment();

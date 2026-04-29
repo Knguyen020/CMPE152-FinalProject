@@ -8,7 +8,7 @@
 class Parser {
 private:
     std::vector<Token> tokens;
-    int current = 0;
+    int current;
     std::vector<std::string> errors;
 
     bool isAtEnd() const;
@@ -25,6 +25,11 @@ private:
     void playerDeclaration();
     void teamDeclaration();
     void statAssignment();
+    void checkStatement();
+
+    void expression();
+    void term();
+    void relationalOperator();
 
 public:
     Parser(const std::vector<Token>& tokenList);

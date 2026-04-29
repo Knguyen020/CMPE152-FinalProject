@@ -7,15 +7,24 @@ enum class TokenType {
     // Keywords
     PLAYER,
     TEAM,
+    CHECK,
 
     // General token types
     IDENTIFIER,
     STRING,
     NUMBER,
 
-    // Symbols
-    ASSIGN,      // =
-    SEMICOLON,   // ;
+    // Symbols / operators
+    ASSIGN,          // =
+    SEMICOLON,       // ;
+    PLUS,            // +
+    MINUS,           // -
+    GREATER,         // >
+    LESS,            // <
+    GREATER_EQUAL,   // >=
+    LESS_EQUAL,      // <=
+    EQUAL_EQUAL,     // ==
+    BANG_EQUAL,      // !=
 
     // Special
     END_OF_FILE,

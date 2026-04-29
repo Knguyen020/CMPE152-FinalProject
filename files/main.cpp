@@ -23,8 +23,9 @@ std::string readFile(const std::string& filename) {
 }
 
 int main() {
-    std::string filename = "testGoodSemantic.txt";
-    //std::string filename = "testBadSemantic.txt";
+    std::string filename = "testGood.txt";
+    //std::string filename = "testBad.txt";
+    
     std::string source = readFile(filename);
 
     if (source.empty()) {
@@ -81,10 +82,9 @@ int main() {
         return stats.count(key) ? stats.at(key) : 0;
     };
 
-    // Header row
     std::cout << std::left
         << std::setw(6) << "MIN"
-        << std::setw(6) << "PTS"       
+        << std::setw(6) << "PTS"
         << std::setw(6) << "FGM"
         << std::setw(6) << "FGA"
         << std::setw(6) << "3PM"
@@ -100,19 +100,21 @@ int main() {
         << std::setw(6) << "+/-"
         << std::endl;
 
-    // Values row
+    std::cout << std::string(90, '-') << std::endl;
+
     int plusMinusValue = getStat("plus_minus");
     std::string plusMinusText = (plusMinusValue > 0 ? "+" : "") + std::to_string(plusMinusValue);
+
     std::cout << std::left
         << std::setw(6) << getStat("min")
         << std::setw(6) << getStat("pts")
-        << std::setw(6) << getStat("reb")
         << std::setw(6) << getStat("fgm")
         << std::setw(6) << getStat("fga")
         << std::setw(6) << getStat("three_pm")
         << std::setw(6) << getStat("three_pa")
         << std::setw(6) << getStat("ftm")
         << std::setw(6) << getStat("fta")
+        << std::setw(6) << getStat("reb")
         << std::setw(6) << getStat("ast")
         << std::setw(6) << getStat("stl")
         << std::setw(6) << getStat("blk")
@@ -120,6 +122,14 @@ int main() {
         << std::setw(6) << getStat("pf")
         << std::setw(6) << plusMinusText
         << std::endl;
+
+    const std::vector<std::string>& checkResults = semanticAnalyzer.getCheckResults();
+    if (!checkResults.empty()) {
+        std::cout << "\nPARLAY RESULTS:\n";
+        for (const std::string& result : checkResults) {
+            std::cout << result << std::endl;
+        }
+    }
 
     return 0;
 }

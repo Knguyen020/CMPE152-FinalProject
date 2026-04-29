@@ -1,0 +1,14 @@
+player "Stephen Curry";
+team "GSW";
+
+pts = 30;
+reb = 5;
+fgm = 10;
+fga = 10;
+three_pm = 4;
+three_pa = 5;
+ftm = 4;
+fta = 4;
+plus_minus = -4;
+
+check pts + reb + ast > 40;

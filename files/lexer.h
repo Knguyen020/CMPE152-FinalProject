@@ -18,14 +18,15 @@ private:
     char advance();
     char peek() const;
     char peekNext() const;
+    bool match(char expected);
 
     void addToken(TokenType type);
     void addToken(TokenType type, const std::string& lexeme);
 
     void scanToken();
     void identifier();
-    void number();          // normal number like 30
-    void signedNumber();    // signed number like +4 or -4
+    void number();
+    void signedNumber();
     void string();
 
     bool isAlpha(char c) const;
@@ -34,7 +35,6 @@ private:
 
 public:
     Lexer(const std::string& src);
-
     std::vector<Token> scanTokens();
 };
 
