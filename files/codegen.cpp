@@ -3,6 +3,17 @@
 CodeGenerator::CodeGenerator(const std::vector<Token>& tokenList)
     : tokens(tokenList) {}
 
+void CodeGenerator::generatePlayer(size_t& i) {
+    std::string name = tokens[i + 1].lexeme;
+    instructions.push_back("SET_PLAYER \"" + name + "\"");
+    i += 2;
+}
+
+void CodeGenerator::generateTeam(size_t& i) {
+    std::string team = tokens[i + 1].lexeme;
+    instructions.push_back("SET_TEAM \"" + team + "\"");
+    i += 2;
+}
 std::string CodeGenerator::relOpToInstruction(TokenType type) const {
     switch (type) {
         case TokenType::GREATER: return "CMP_GT";
@@ -85,11 +96,18 @@ void CodeGenerator::generateCheck(size_t& i) {
 
 void CodeGenerator::generate() {
     for (size_t i = 0; i < tokens.size(); i++) {
-        if (tokens[i].type == TokenType::IDENTIFIER &&
-            i + 3 < tokens.size() &&
-            tokens[i + 1].type == TokenType::ASSIGN &&
-            tokens[i + 2].type == TokenType::NUMBER &&
-            tokens[i + 3].type == TokenType::SEMICOLON) {
+
+        if (tokens[i].type == TokenType::PLAYER) {
+            generatePlayer(i);
+        }
+        else if (tokens[i].type == TokenType::TEAM) {
+            generateTeam(i);
+        }
+        else if (tokens[i].type == TokenType::IDENTIFIER &&
+                 i + 3 < tokens.size() &&
+                 tokens[i + 1].type == TokenType::ASSIGN &&
+                 tokens[i + 2].type == TokenType::NUMBER &&
+                 tokens[i + 3].type == TokenType::SEMICOLON) {
 
             generateAssignment(i);
         }

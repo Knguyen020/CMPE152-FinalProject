@@ -10,6 +10,8 @@ private:
     std::vector<Token> tokens;
     std::vector<std::string> instructions;
 
+    void generatePlayer(size_t& i);
+    void generateTeam(size_t& i);
     void generateAssignment(size_t& i);
     void generateCheck(size_t& i);
     std::string relOpToInstruction(TokenType type) const;
