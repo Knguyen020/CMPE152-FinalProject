@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include <iomanip>
+#include "codegen.h"
 #include "lexer.h"
 #include "parser.h"
 #include "semantic.h"
@@ -129,6 +130,15 @@ int main() {
         for (const std::string& result : checkResults) {
             std::cout << result << std::endl;
         }
+    }
+
+    std::cout << "\nINTERMEDIATE CODE:\n";
+    CodeGenerator codeGenerator(tokens);
+    codeGenerator.generate();
+
+    const std::vector<std::string>& instructions = codeGenerator.getInstructions();
+    for (const std::string& instruction : instructions) {
+        std::cout << instruction << std::endl;
     }
 
     return 0;

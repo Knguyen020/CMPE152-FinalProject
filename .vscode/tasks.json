@@ -11,7 +11,9 @@
                 "lexer.cpp",
                 "token.cpp",
                 "parser.cpp",
-                "semantic.cpp"
+                "semantic.cpp",
+                "codegen.cpp",
+                "/Fe:main.exe"
             ],
             "options": {
                 "cwd": "${workspaceFolder}\\files"
